@@ -49,24 +49,24 @@ public:
 private:
 
     /* Controladores del video */
-		WImage *Video_widget;
-		WMemoryResource *Memory_widget;
-		vector<uchar> frame_uchar;
-		void Capture_Video();
+	WImage *Video_widget;
+	WMemoryResource *Memory_widget;
+	vector<uchar> frame_uchar;
+	void Capture_Video();
 
 	/* Controladores servomotores */
 		/* Servomotores articulares */
-			WTable 	*Servo_Table;
-			WSlider *Servo_Slider[7];
-			WLineEdit 	*Servo_Value[7];
-			WContainerWidget *Contenedor_Servos;
-			void Init_Servo_Table(WContainerWidget *parent);
-			void Slide_Data_Change(void);
-			void Servo_Data_Change(void);
+	WTable 	*Servo_Table;
+	WSlider *Servo_Slider[7];
+	WLineEdit 	*Servo_Value[7];
+	WContainerWidget *Contenedor_Servos;
+	void Init_Servo_Table(WContainerWidget *parent);
+	void Slide_Data_Change(void);
+	void Servo_Data_Change(void);
 		/*Servomotores de tracción */
-			WPushButton *Servodir[4]; // 0-> Adelante, 1-> Atras, 2-> Derecha, 3-> Izquierda
-			WContainerWidget *Contenedor_Botones;
-			void Init_PushBottoms(WContainerWidget *parent);
+	WPushButton *Servodir[4]; // 0-> Adelante, 1-> Atras, 2-> Derecha, 3-> Izquierda
+	WContainerWidget *Contenedor_Botones;
+	void Init_PushBottoms(WContainerWidget *parent);
 
 		/* Widget datos sensores */
 			WText *Sensores[6];
@@ -77,7 +77,9 @@ private:
 
 		/*Tranferencia spi */
 			XGAMA_t xgama2master, master2xgama;
+#ifdef RPI
 			void Init_SPI_Raspberry(void);
+#endif
 			void SPI_Transfer(void);
 			void Active_Adelante(void);
 			void Active_Atras(void);

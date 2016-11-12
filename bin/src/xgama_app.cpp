@@ -18,11 +18,13 @@ XGAMA_Application::XGAMA_Application(const WEnvironment& env)
 			Init_Time->timeout().connect(this,&XGAMA_Application::Capture_Video);
 			Init_Time->start();
 
+#ifdef RPI
 	/* Temporizador para transferencia SPI */
 			WTimer *SPI_transfer = new WTimer();
 			SPI_transfer->setInterval(50); //ms
 			SPI_transfer->timeout().connect(this,&XGAMA_Application::SPI_Transfer);
 			SPI_transfer->start();
+#endif
 
     /* Widget para mostrar Frames,vía metodo de por memoria */
 			Memory_widget = new WMemoryResource(MINETYPE_FRAME);
@@ -48,9 +50,10 @@ XGAMA_Application::XGAMA_Application(const WEnvironment& env)
 			Sens_InAnalog = new WContainerWidget();
 			Init_Sensores_Contenedor(Sens_Temperatura,Sens_Brujula,Sens_InAnalog);
 
+#ifdef RPI
 	/*Comunicación SPI */
 			Init_SPI_Raspberry();
-
+#endif
 	/* Layout de la interfaz Web */
 			Layout_Horizontal[0] = new WHBoxLayout();
 			Layout_Horizontal[1] = new WHBoxLayout();
@@ -107,7 +110,7 @@ void XGAMA_Application::Init_Servo_Table(WContainerWidget *parent)
 				Servo_Table->elementAt(0,1)->addWidget(new WText("Etiqueta"));
 				Servo_Table->elementAt(0,1)->setContentAlignment(AlignMiddle);
 				Servo_Table->elementAt(0,2)->addWidget(new WText("Valor (deg)"));
-				Servo_Table->elementAt(0,2)->setContentAlignment(AlignLength);
+				Servo_Table->elementAt(0,2)->setContentAlignment(AlignMiddle);
 				Servo_Table->elementAt(0,3)->addWidget(new WText(" "));
 
 				/* Llenado de la tabla */
@@ -244,6 +247,7 @@ void XGAMA_Application::Init_Sensores_Contenedor(WContainerWidget *cont1,WContai
 		cont3->addWidget(Sensores[5]);
 }
 
+#ifdef RPI
 void XGAMA_Application::Init_SPI_Raspberry(void)
 {
 	bcm2835_init();
@@ -258,7 +262,7 @@ void XGAMA_Application::Init_SPI_Raspberry(void)
 	master2xgama.OC[Rigth_Motor] = 0;
 	master2xgama.OC[Left_Motor] = 0;
 }
-
+#endif
 void XGAMA_Application::SPI_Transfer(void)
 {
 	std::stringstream ss;
